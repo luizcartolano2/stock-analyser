@@ -12,4 +12,5 @@ setup(
     packages=find_packages(),
     install_requires=[],
     python_requires='>=3.8',
+    license='MIT License',
 )

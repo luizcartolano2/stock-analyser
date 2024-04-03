@@ -1,1 +1,15 @@
 setuptools~=58.0.4
+pip~=21.2.4
+wheel~=0.37.0
+dill~=0.3.8
+future~=0.18.2
+isort~=5.13.2
+tomli~=2.0.1
+pylint~=3.1.0
+astroid~=3.1.0
+tomlkit~=0.12.4
+mccabe~=0.7.0
+platformdirs~=4.2.0
+numpy~=1.26.4
+pandas~=2.2.1
+tiingo~=0.14.0
