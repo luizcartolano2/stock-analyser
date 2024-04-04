@@ -25,6 +25,8 @@ class ApiClient:
     Methods:
         build_client(self, api_name: str) -> Optional[TiingoClient]:
             Method to build the api client based on the client name.
+        get_all_tickers_from_api(self) -> dict
+            Method to retrieve all tickers from the used API.
         get_available_tickers(self) -> list:
             Method to retrieve available tickers based on env variables and the API client.
         __is_valid_date(date: str) -> bool:
@@ -51,6 +53,16 @@ class ApiClient:
         """
         if api_name == ApiName.TIINGO_API.value:
             return TiingoClient(self.__session_config)
+
+        raise NotImplementedError
+
+    def get_all_tickers_from_api(self) -> dict:
+        """
+        Method to retrieve all tickers from the used API.
+        :return: a JSON of tickers.
+        """
+        if isinstance(self.client, TiingoClient):
+            return self.client.list_tickers()
 
         raise NotImplementedError
 
