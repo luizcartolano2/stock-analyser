@@ -5,7 +5,7 @@ routes off application.
 """
 from flask import Flask
 from flask_caching import Cache
-from constants import CACHE_TTL
+from src.constants import CACHE_TTL
 
 
 config = {
