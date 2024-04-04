@@ -1,0 +1,32 @@
+name: Run Checks on Pull Request
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  test:
+    name: Run pytest and Pylint
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    - name: Run Pylint on src folder
+      run: pylint src
+
+    - name: Run Pylint on tests folder
+      run: pylint tests
+
+    - name: Run pytest
+      run: pytest

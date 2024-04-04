@@ -80,8 +80,8 @@ class ApiClient:
         try:
             datetime.datetime.strptime(date, '%Y-%m-%d')
             return True
-        except ValueError:
-            return False
+        except ValueError as exc:
+            raise ValueError('Date must be like %Y-%m-%d.') from exc
 
     def get_prices(self, start_date: str = None, end_date: str = None, frequency: Frequency = Frequency.DAILY) -> dict[
         str, pd.DataFrame
