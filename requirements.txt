@@ -19,3 +19,4 @@ Flask-Caching~=2.1.0
 gunicorn~=21.2.0
 pytest~=8.1.1
 pytest-mock~=3.14.0
+mocker~=1.1.1

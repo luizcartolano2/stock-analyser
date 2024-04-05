@@ -10,6 +10,17 @@ from src.app import create_app
 from src.client.api_client import ApiClient
 from src.client.api_name import ApiName
 
+LIST_TICKERS = [
+    {'ticker': 'AAPL', 'exchange': 'NASDAQ', 'assetType': 'Stock', 'priceCurrency': 'USD',
+     'startDate': '2017-10-26', 'endDate': '2024-04-02'},
+    {'ticker': 'MSFT', 'exchange': 'NASDAQ', 'assetType': 'Stock', 'priceCurrency': 'USD',
+     'startDate': '2017-10-26', 'endDate': '2024-04-02'},
+    {'ticker': 'AMZN', 'exchange': 'NASDAQ', 'assetType': 'Stock', 'priceCurrency': 'USD',
+     'startDate': '2017-10-26', 'endDate': '2024-04-02'},
+    {'ticker': 'GOOGL', 'exchange': 'NASDAQ', 'assetType': 'Stock', 'priceCurrency': 'USD',
+     'startDate': '2017-10-26', 'endDate': '2024-04-02'}
+]
+
 
 @pytest.fixture
 def client(mocker):
@@ -20,16 +31,7 @@ def client(mocker):
     mock_tiingo_client = mocker.Mock(spec=TiingoClient)
 
     # Set the return value for the list_tickers method
-    mock_tiingo_client.list_tickers.return_value = [
-        {'ticker': 'AAPL', 'exchange': 'NASDAQ', 'assetType': 'Stock', 'priceCurrency': 'USD',
-         'startDate': '2017-10-26', 'endDate': '2024-04-02'},
-        {'ticker': 'MSFT', 'exchange': 'NASDAQ', 'assetType': 'Stock', 'priceCurrency': 'USD',
-         'startDate': '2017-10-26', 'endDate': '2024-04-02'},
-        {'ticker': 'AMZN', 'exchange': 'NASDAQ', 'assetType': 'Stock', 'priceCurrency': 'USD',
-         'startDate': '2017-10-26', 'endDate': '2024-04-02'},
-        {'ticker': 'GOOGL', 'exchange': 'NASDAQ', 'assetType': 'Stock', 'priceCurrency': 'USD',
-         'startDate': '2017-10-26', 'endDate': '2024-04-02'}
-    ]
+    mock_tiingo_client.list_tickers.return_value = LIST_TICKERS
 
     # Set the return value for the get_ticker_price method
     mock_tiingo_client.get_ticker_price.return_value = [
@@ -50,11 +52,18 @@ def client(mocker):
     yield client
 
 
-def test_ping(client):
+def test_routes(client):
     """
     Function to test debug route.
 
     :param client: A testing client object.
     """
     rep = client.get("/ping")
+    assert 200 == rep.status_code
+
+    rep = client.get('/tickers')
+    assert 200 == rep.status_code
+    assert LIST_TICKERS == rep.json
+
+    rep = client.post('/tickers', json={'tickers': ['APPL']})
     assert 200 == rep.status_code

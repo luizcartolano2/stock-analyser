@@ -53,7 +53,7 @@ def create_app(api_client: ApiClient = None):
 
         return jsonify(available_tickers), 200
 
-    @app.route('/set_tickers', methods=['POST'])
+    @app.route('/tickers', methods=['POST'])
     def set_tickers():
         """
         Method so user can set the tickers for the client.
