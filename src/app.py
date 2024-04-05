@@ -4,6 +4,8 @@ The app module implements the basic routes for the application.
 """
 from flask import Flask, jsonify, request
 from flask_caching import Cache
+
+from src.client.frequency import Frequency
 from src.constants import API_NAME, CACHE_TTL
 from src.client.api_client import ApiClient
 
@@ -70,5 +72,20 @@ def create_app(api_client: ApiClient = None):
             return jsonify({'message': 'Tickers received successfully', 'tickers': tickers_list})
 
         return jsonify({'error': 'Invalid format for tickers data'})
+
+    @app.route('/prices', methods=['GET'])
+    def get_prices():
+        """
+        Method to get prices from the tickers.
+        :return: message with ticker prices
+        """
+        start_date = request.args.get('startDate')
+        end_date = request.args.get('endDate')
+        frequency = request.args.get('frequency', default=Frequency.DAILY)
+
+        ticker_prices = app.api_client.get_prices(start_date, end_date, frequency)
+        json_dataframes = {key: df.to_json(orient='records') for key, df in ticker_prices.items()}
+
+        return jsonify(json_dataframes), 200
 
     return app
